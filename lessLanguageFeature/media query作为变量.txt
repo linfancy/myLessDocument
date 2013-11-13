@@ -1,0 +1,20 @@
+media query作为变量
+
+如果你希望在media query中使用LESS变量，你可以直接使用普通的变量方式。例如：
+
+@singleQuery: ~"(max-width: 500px)";
+@media screen, @singleQuery {
+    set {
+        padding: 3 3 3 3;
+    }
+}
+被编译为：
+
+@media screen, (max-width: 500px) {
+    set {
+        padding: 3 3 3 3;
+    }
+}
+变量必须包含完整的media query。这样写会导致报错：@media screen and @partial {。
+
+在1.4.0中，在开启严格运算模式的情况下，你也可以在media query的条件中插入变量。如@media screen, (max-width: @width) {。

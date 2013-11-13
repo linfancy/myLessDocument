@@ -1,0 +1,19 @@
+运算
+
+任何数字、颜色或者变量都可以参与运算，运算应该被包裹在括号中。来看一组例子：
+
+@base: 5%;
+@filler: (@base * 2);
+@other: (@base + @filler);
+
+color: (#888 / 4);
+background-color: (@base-color + #111);
+height: (100% / 2 + @filler);
+LESS 的运算已经超出了我们的期望，如果像下面这样的话，它能够分辨出颜色和单位：
+
+@var: (1px + 5);
+LESS 将会使用出现的单位，最终输出 6px。
+
+也可以使用括号：
+
+width: ((@var + 5) * 2);

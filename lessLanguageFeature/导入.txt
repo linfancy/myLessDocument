@@ -1,0 +1,81 @@
+导入（Import）
+
+在LESS中，你既可以导入CSS文件，也可以导入LESS文件。但只有导入的LESS文件才会被处理（编译），导入的CSS文件会保持原样。如果你希望导入一个CSS文件，保留.css后缀即可：
+
+@import "lib.css";
+编译过程中，对导入CSS文件只做一处处理：将导入的语句提到最前，紧跟在@charset之后。
+
+例如输入的文件有导入语句：
+
+h1 { color: green; }
+@import "import/official-branding.css?urlParameter=23";
+导入语句将被提到最前：
+
+@import "import/official-branding.css?urlParameter=23";
+h1 { color: green; }
+被导入的LESS文件会被复制到含导入语句的文件中，然后一起编译。导入和被导入的文件共享所有的混合、命名空间、变量以及其它结构。
+
+另外，如果导入语句是通过media query指定的，那么导入的语句编译之后会被包裹在@Media声明中。
+
+例如有被导入的文件library.less：
+
+@imported-color: red;
+h1 { color: green; }
+主样式文件导入了上面的library.less：
+
+@import "library.less" screen and (max-width: 400px); // 通过media query指定的import
+@import "library.less"; // 无media query的import
+
+.class {
+    color: @importedColor; // 使用导入的变量
+}
+将会编译出：
+
+// 对应通过media query指定的import
+@media screen and (max-width: 400px) {
+    h1 { color: green; }
+}
+
+// 对应无media query的import
+h1 { color: green; }
+.class {
+    // 使用导入的变量
+    color: #ff0000;
+}
+LESS文件的导入语句并不强制要求在顶部，它可以被入在规则内部、混合中或者其它的结构中。
+
+例如放在规则内部：
+
+pre {
+    @import "library.less";
+    color: @importedColor;
+}
+在library.less中定义的变量和规则都会被投篮到pre的规则中：
+
+pre {
+    color: #ff0000; // 定义在library.less中的变量可用
+}
+pre h1 { // 定义在library.less中的样式规则被嵌套到pre中
+    color: green;
+}
+在v1.3.0 - v1.3.3中，@import允许多次导入同一个文件，可以使用@import-once让同一文件只导入一次。
+
+在v1.4.0中，移除了@import-once，@import的行为就是同一文件只导入一次了。这意味着，如果代码是这样的：
+
+@import “file.less”; @import “file.less”;
+那么第二个文件将被忽略。
+
+任何不以.css结尾的文件都被认为是less文件，将被处理。另外，如果文件名没有后缀，LESS会自动在结尾加上.less。下面两种写法是等价的：
+
+@import "lib.less";
+@import "lib";
+在v1.4.0中，你可以强制某个文件使用特写的方式来处理，比如：
+
+@import (css) "lib";
+将会输出：
+
+@import "lib";
+而
+
+@import (less) "lib.css";
+会将lib.css引入，并当作LESS文件处理。如果你指定了某个文件是less但是没有包含后缀名，LESS将不会自动添加后缀。

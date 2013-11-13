@@ -1,0 +1,15 @@
+@arguments 变量
+
+@arguments包含了所有传递进来的参数。 如果你不想单独处理每一个参数的话就可以像这样写：
+
+.box-shadow (@x: 0, @y: 0, @blur: 1px, @color: #000) {
+    box-shadow: @arguments;
+    -moz-box-shadow: @arguments;
+    -webkit-box-shadow: @arguments;
+}
+.box-shadow(2px, 5px);
+将会输出：
+
+box-shadow: 2px 5px 1px #000;
+-moz-box-shadow: 2px 5px 1px #000;
+ -webkit-box-shadow: 2px 5px 1px #000;

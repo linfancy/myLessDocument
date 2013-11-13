@@ -1,0 +1,22 @@
+JavaScript求值
+
+在LESS中还可以使用JavaScript表达式来求值。我们不建议谨慎使用这个特性，因为它会使得LESS在其它平台的可编译性变低，也会使得LESS更难维护。如果可能，试着想想能否用一个函数来完成相同的事情，在github上这样的库很多。我们有计划开放对函数的扩展。但，如果你仍然想用的话，你可以通过反引号的方式使用：
+
+@var: `"hello".toUpperCase() + '!'`;
+输出：
+
+@var: "HELLO!";
+注意你也可以同时使用字符串插值和避免编译：
+
+@str: "hello";
+@var: ~`"@{str}".toUpperCase() + '!'`;
+输出：
+
+@var: HELLO!;
+它也可以访问 JavaScript 环境：
+
+@height: `document.body.clientHeight`;
+如果你想将一个 JavaScript 字符串解析成16进制的颜色值，你可以使用 color 函数：
+
+@color: color(`window.colors.baseColor`);
+@darkcolor: darken(@color, 10%);

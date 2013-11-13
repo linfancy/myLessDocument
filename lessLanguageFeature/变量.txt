@@ -1,0 +1,65 @@
+变量
+
+很容易理解：
+
+@nice-blue: #5B83AD;
+@light-blue: @nice-blue + #111;
+
+#header { color: @light-blue; }
+输出：
+
+#header { color: #6c94be; }
+甚至可以在定义变量值时使用其它的变量：
+
+@fnord: "I am fnord.";
+@var: 'fnord';
+content: @@var;
+解析后：
+
+content: "I am fnord.";
+如果对同一个变量定义两次的话，在当前作用域中最后一次定义的将被使用。这与CSS的机制类似，最后一次定义的值会成为这个属性的值。
+
+比如：
+
+@var: 0;
+.class1 {
+    @var: 1;
+    .class {
+        @var: 2;
+        three: @var;
+        @var: 3;
+    }
+    one: @var;
+}
+会编译成：
+
+.class1 .class {
+    three: 3;
+}
+.class1 {
+    one: 1;
+}
+变量是“按需加载”（lazy loaded）的，因此不必强制在使用之前声明。
+
+下面是一个有效的LESS代码片段：
+
+lazy-eval {
+    width: @var;
+}
+
+@var: @a;
+@a: 9%;
+下面这个片段也是有效的：
+
+.lazy-eval-scope {
+    width: @var;
+    @a: 9%;
+}
+
+@var: @a;
+@a: 100%;
+这两个片段都会编译成：
+
+.lazy-eval-scope {
+    width: 9%;
+}

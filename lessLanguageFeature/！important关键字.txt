@@ -1,0 +1,24 @@
+!important关键字
+
+调用时在混合后面加上!important关键字表示将混合带来的所有属性标记为!important：
+
+.mixin (@a: 0) {
+    border: @a;
+    boxer: @a;
+}
+.unimportant {
+    .mixin(1); 
+}
+.important {
+    .mixin(2) !important; 
+}
+编译成：
+
+.unimportant {
+    border: 1;
+    boxer: 1;
+}
+.important {
+    border: 2 !important;
+    boxer: 2 !important;
+}

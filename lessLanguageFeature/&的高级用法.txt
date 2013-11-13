@@ -1,0 +1,27 @@
+& 的高级用法
+
+用在选择器中的&还可以反转嵌套的顺序并且可以应用到多个类名上。
+
+例如：
+
+.child, .sibling {
+    .parent & {
+        color: black;
+    }
+    & + & {
+        color: red;
+    }
+}
+输出：
+
+.parent .child,
+.parent .sibling {
+    color: black;
+}
+.child + .child,
+.child + .sibling,
+.sibling + .child,
+.sibling + .sibling {
+    color: red;
+}
+&也可以用在混合中用于指示嵌套这个混合的父选择器。

@@ -1,0 +1,24 @@
+嵌套 Media Queries
+
+Media query也可以使用同样的方式进行嵌套。
+
+.one {
+    @media (width: 400px) {
+        font-size: 1.2em;
+        @media print and color {
+            color: blue;
+        }
+    }
+}
+输出：
+
+@media (width: 400px) {
+    .one {
+        font-size: 1.2em;
+    }
+}
+@media (width: 400px) and print and color {
+    .one {
+        color: blue;
+        }
+}
